@@ -1,6 +1,8 @@
+#!/usr/bin/python3
 """
 Module for calculating the minimum number
 """
+
 
 def minOperations(n):
     """

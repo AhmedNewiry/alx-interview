@@ -7,10 +7,10 @@ or upon keyboard interruption (CTRL + C).
 Usage:
     ./0-generator.py | ./0-stats.py
 """
+
 import sys
 import signal
 from collections import defaultdict
-
 
 # Initialize counters and metrics
 status_codes = [200, 301, 400, 401, 403, 404, 405, 500]
@@ -73,3 +73,6 @@ def process_log_lines():
         # Print metrics after every 10 lines
         if line_count % 10 == 0:
             print_metrics()
+
+if __name__ == "__main__":
+    process_log_lines()

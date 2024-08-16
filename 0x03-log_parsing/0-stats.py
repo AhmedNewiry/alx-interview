@@ -5,85 +5,70 @@ statistics after every 10 lines or when interrupted by a keyboard
 """
 
 import sys
-import signal
 
 
-total_file_size = 0
-status_code_counts = {
-    200: 0,
-    301: 0,
-    400: 0,
-    401: 0,
-    403: 0,
-    404: 0,
-    405: 0,
-    500: 0,
-}
-line_count = 0
-
-
-def print_statistics():
+def print_stats(total_size, status_counts):
     """
     Prints the accumulated statistics:
-    - Total file size of all processed lines.
-    - Number of occurrences of each HTTP status code, sorted by status code.
-    """
-    print(f"File size: {total_file_size}")
-    for code in sorted(status_code_counts.keys()):
-        if status_code_counts[code] > 0:
-            print(f"{code}: {status_code_counts[code]}")
-
-
-def signal_handler(sig, frame):
-    """
-    Handles the SIGINT signal (usually triggered by CTRL + C).
-    Prints the current statistics and exits the program.
 
     Args:
-        sig: The signal number.
-        frame: The current stack frame.
+        total_size (int): The total file size accumulated.
+        status_counts (dict): A dictionary with status codes as keys and their counts as values.
     """
-    print_statistics()
-    sys.exit(0)
+    print("File size: {}".format(total_size))
+    for code in sorted(status_counts.keys()):
+        if status_counts[code] > 0:
+            print("{}: {}".format(code, status_counts[code]))
 
 
-# Register the signal handler for SIGINT (CTRL + C)
-signal.signal(signal.SIGINT, signal_handler)
+def log_parser():
+    """
+    Parses the log lines from stdin and computes the required metrics.
+    """
+    total_size = 0
+    status_counts = {
+        200: 0,
+        301: 0,
+        400: 0,
+        401: 0,
+        403: 0,
+        404: 0,
+        405: 0,
+        500: 0}
+    line_count = 0
 
-try:
-    for line in sys.stdin:
-        parts = line.split()
-        if len(parts) < 7:
-            continue
+    try:
+        for line in sys.stdin:
+            parts = line.split()
+            if len(parts) < 9:
+                continue
 
-        ip_address = parts[0]
-        date = parts[3] + " " + parts[4]
-        method = parts[5]
-        url = parts[6]
-        protocol = parts[7]
-        status_code = parts[8]
-        file_size = parts[9]
+            # Extract file size
+            try:
+                file_size = int(parts[-1])
+                total_size += file_size
+            except ValueError:
+                continue
 
-        if method != '"GET' or protocol != 'HTTP/1.1"':
-            continue
+            # Extract status code
+            try:
+                status_code = int(parts[-2])
+                if status_code in status_counts:
+                    status_counts[status_code] += 1
+            except ValueError:
+                continue
 
-        try:
-            status_code = int(status_code)
-            file_size = int(file_size)
-        except ValueError:
-            continue
+            line_count += 1
 
-        if status_code in status_code_counts:
-            status_code_counts[status_code] += 1
+            if line_count % 10 == 0:
+                print_stats(total_size, status_counts)
 
-        total_file_size += file_size
-        line_count += 1
+    except KeyboardInterrupt:
+        print_stats(total_size, status_counts)
+        raise
 
-        if line_count % 10 == 0:
-            print_statistics()
+    print_stats(total_size, status_counts)
 
-except Exception as e:
-    pass
 
-# Print final statistics after processing all lines
-print_statistics()
+if __name__ == "__main__":
+    log_parser()

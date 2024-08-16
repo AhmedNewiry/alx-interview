@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """
 This module reads log lines from stdin, calculates metrics, and outputs
 statistics after every 10 lines or when interrupted by a keyboard

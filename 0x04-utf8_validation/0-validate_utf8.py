@@ -9,7 +9,8 @@ def validUTF8(data):
     Checks if a given list of integers represents a valid UTF-8 encoding.
 
     Args:
-        data (list of int): List of integers, where each integer represents 1 byte of data.
+        data (list of int): List of integers, 
+        iwhere each integer represents 1 byte of data.
 
     Returns:
         bool: True if data is a valid UTF-8 encoding, False otherwise.

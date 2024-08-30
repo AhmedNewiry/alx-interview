@@ -10,11 +10,12 @@ class NQueen:
         """Initialize the N-Queens solver.
 
         Args:
-            n (int): The size of the chessboard 
+            n (int): The size of the chessboard
             (N x N) and the number of queens.
         """
         self.n = n
-        self.board = [0] * (n + 1)  # Board to store queen positions (1-based index)
+        # Board to store queen positions (1-based index)
+        self.board = [0] * (n + 1)
         self.solutions = []
 
     def is_valid(self, k, i):
@@ -29,7 +30,7 @@ class NQueen:
         """
         for j in range(1, k):
             if (self.board[j] == i or  # Same column
-                abs(self.board[j] - i) == abs(j - k)):  # Same diagonal
+                    abs(self.board[j] - i) == abs(j - k)):  # Same diagonal
                 return False
         return True
 
@@ -47,7 +48,8 @@ class NQueen:
             if self.is_valid(k, i):
                 self.board[k] = i
                 if k == self.n:
-                    solution = [[row - 1, self.board[row] - 1] for row in range(1, self.n + 1)]
+                    solution = [[row - 1, self.board[row] - 1]
+                                for row in range(1, self.n + 1)]
                     self.solutions.append(solution)
                 else:
                     self.solve(k + 1)

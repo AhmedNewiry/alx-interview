@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 Solves the N Queens puzzle by placing N queens on an N×N
 chessboard such that no two queens attack each other.

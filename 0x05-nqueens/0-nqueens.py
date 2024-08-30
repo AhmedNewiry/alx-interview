@@ -6,10 +6,12 @@ chessboard such that no two queens attack each other.
 
 import sys
 
+
 def print_solutions(solutions):
     """Prints each solution in the format required."""
     for solution in solutions:
         print(solution)
+
 
 def is_not_under_attack(board, row, col):
     """Check if a queen can be placed at (row, col) without being attacked."""
@@ -19,6 +21,7 @@ def is_not_under_attack(board, row, col):
            board[r] - col == row - r:
             return False
     return True
+
 
 def solve_nqueens(n):
     """Solve the N Queens problem and return all solutions."""
@@ -38,6 +41,7 @@ def solve_nqueens(n):
     backtrack(0)
     return solutions
 
+
 def main():
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
@@ -55,6 +59,7 @@ def main():
 
     solutions = solve_nqueens(n)
     print_solutions(solutions)
+
 
 if __name__ == "__main__":
     main()

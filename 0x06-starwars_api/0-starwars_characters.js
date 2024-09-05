@@ -1,16 +1,12 @@
 #!/usr/bin/env node
-
 const request = require('request');
-
 const movieId = process.argv[2];
 const apiUrl = `https://swapi-api.hbtn.io/api/films/${movieId}`;
-
 request(apiUrl, (err, res, body) => {
   if (err) {
     console.error('Error fetching film data:', err);
     return;
   }
-
   const characterUrls = JSON.parse(body).characters;
   fetchCharactersInOrder(characterUrls, 0);
 });

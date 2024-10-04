@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Prime Game Module to determine the winner after x rounds of the game."""
+"""Prime Game Module to determine the
+winner after x rounds of the game."""
 
 def isWinner(x, nums):
     """Determines the overall winner of the game after x rounds."""

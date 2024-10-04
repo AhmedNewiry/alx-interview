@@ -2,6 +2,7 @@
 """Prime Game Module to determine the
 winner after x rounds of the game."""
 
+
 def isWinner(x, nums):
     """Determines the overall winner of the game after x rounds."""
     if x < 1 or not nums:

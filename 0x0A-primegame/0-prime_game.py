@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-"""Prime Game Module to determine the
-winner after x rounds of the game."""
+"""Prime Game Module to determine the winner after x rounds of the game."""
 
 def isWinner(x, nums):
-    """Determines the overall winner of
-       the game after x rounds.
-    """
+    """Determines the overall winner of the game after x rounds."""
+    if x < 1 or not nums:
+        return None
+
     max_n = max(nums)
     primes = [True] * (max_n + 1)
     primes[0] = primes[1] = False
@@ -16,7 +16,6 @@ def isWinner(x, nums):
                 primes[multiple] = False
 
     dp = [0] * (max_n + 1)
-
     for i in range(1, max_n + 1):
         dp[i] = dp[i - 1]
         if primes[i]:
